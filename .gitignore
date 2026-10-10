@@ -1,0 +1,18 @@
+# Dependencias
+node_modules/
+
+# Expo
+.expo/
+dist/
+web-build/
+
+# Logs
+*.log
+
+# macOS
+.DS_Store
+
+# Variables de entorno locales (mantener .env.example)
+.env
+.env.*
+!.env.example
