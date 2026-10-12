@@ -2,15 +2,16 @@ import axios from 'axios';
 import Constants from 'expo-constants';
 import { borrarToken, obtenerToken } from './storage';
 
-// Auto-detecta la IP de la Mac donde corre Expo (y el backend).
-// El celular se conecta al servidor de Expo por esa IP, así que
-// usamos la misma para llegar al backend en el puerto 8080.
-// Fallback: 192.168.100.103 por si hostUri no está disponible.
+// Producción: si EXPO_PUBLIC_API_URL está definida (archivo .env), se usa esa
+// URL (p. ej. el backend en Azure). Desarrollo: sin la variable, se auto-detecta
+// la IP de la Mac donde corre Expo (y el backend) — comportamiento original.
 const hostUri = Constants.expoConfig?.hostUri;
 const MAC_IP = hostUri ? hostUri.split(':')[0] : '192.168.100.103';
 
+const API_URL = process.env.EXPO_PUBLIC_API_URL ?? `http://${MAC_IP}:8080/api/v1`;
+
 const api = axios.create({
-  baseURL: `http://${MAC_IP}:8080/api/v1`,
+  baseURL: API_URL,
   timeout: 5000,
   headers: {
     'Content-Type': 'application/json',
